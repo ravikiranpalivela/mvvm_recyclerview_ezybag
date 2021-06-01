@@ -3,7 +3,9 @@ package com.ravikiran.recyclerviewexample
 import android.app.Application
 import android.content.Context
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application() {
     private var context: Context? = null
 

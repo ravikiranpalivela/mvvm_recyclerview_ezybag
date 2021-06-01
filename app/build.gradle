@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -13,6 +16,11 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField("String","BASE_URL","\"http://ezybag.in/controladmin/api/Starsmartapi/\"")
+        buildConfigField("String","SLIDER_URL","\"http://ezybag.in/controladmin/uploads/images/\"")
+        buildConfigField("String","BRAND_URL","\"http://ezybag.in/controladmin/uploads/brands/\"")
+        buildConfigField("String","ITEM_URL","\"http://ezybag.in/controladmin/\"")
+        buildConfigField("String","PRODUCT_URL","\"http://ezybag.in/controladmin/\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,7 +38,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -58,9 +66,16 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-//    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // Hilt dependencies
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    def hilt_viewmodels = "1.0.0-alpha02"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodels"
+    kapt "androidx.hilt:hilt-compiler:$hilt_viewmodels"
 
 }

@@ -10,25 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.fragment.app.activityViewModels
 import com.ravikiran.recyclerviewexample.R
-import com.ravikiran.recyclerviewexample.data.remote.ApiService
-import com.ravikiran.recyclerviewexample.data.repository.MainRepository
+import com.ravikiran.recyclerviewexample.data.local.SharedPref
 import com.ravikiran.recyclerviewexample.databinding.ActivityRegisterBinding
 import com.ravikiran.recyclerviewexample.showOrHidePassword
+import com.ravikiran.recyclerviewexample.ui.activity.AuthActivity
 import com.ravikiran.recyclerviewexample.ui.activity.MainActivity
-import com.ravikiran.recyclerviewexample.viewmodel.AuthViewModel
-import com.ravikiran.recyclerviewexample.viewmodel.MainViewModel
-import com.ravikiran.recyclerviewexample.viewmodel.MyViewModelFactory
-import kotlinx.coroutines.launch
+import com.ravikiran.recyclerviewexample.util.Resource
+import com.ravikiran.recyclerviewexample.viewmodel.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var viewModel: MainViewModel
-    private val retrofitService = ApiService.getInstance()
+
+    private lateinit var viewModel: SharedViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,16 +40,45 @@ class RegisterFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         binding = ActivityRegisterBinding.bind(view)
 
-        viewModel = ViewModelProvider(requireActivity(), MyViewModelFactory(MainRepository(retrofitService))).get(MainViewModel::class.java)
+        viewModel = (activity as AuthActivity).mViewModel
 
-        viewModel.authList.observe(requireActivity(), Observer {
-            Log.d("taggy", "onCreate: $it")
-            Log.d("taggy", "login response" + it.token)
-//            viewModel.saveAuthToken(it.value.body()?.token!!)
-            Toast.makeText(requireContext(), "Register Successfully!", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            requireActivity().finish()
+//        viewModel = ViewModelProvider(requireActivity(), MyViewModelFactory(MainRepository(retrofitService))).get(MainViewModel::class.java)
+//
+//        viewModel.authList.observe(requireActivity(), Observer {
+//            Log.d("taggy", "onCreate: $it")
+//            Log.d("taggy", "login response" + it.token)
+////            viewModel.saveAuthToken(it.value.body()?.token!!)
+//            Toast.makeText(requireContext(), "Register Successfully!", Toast.LENGTH_SHORT).show()
+//            startActivity(Intent(requireContext(), MainActivity::class.java))
+//            requireActivity().finish()
+//        })
+
+        viewModel.registerpage.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.i("MyNews", "Loading...")
+//                    onLoadingState(true)
+                }
+                is Resource.Error -> {
+                    Log.i("MyNews", "Error ${it.message}")
+//                    onLoadingState(false)
+                    it.message?.let { message ->
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Success -> {
+                    if (it.data?.isregister == true) {
+                        SharedPref.token = it.data?.token
+                        Toast.makeText(requireContext(), "Login Successfully!", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(requireContext(), MainActivity::class.java))
+                        requireActivity().finish()
+                    } else
+                        Toast.makeText(requireContext(), "Login not Successfully!" + it.data?.msg, Toast.LENGTH_SHORT).show()
+//
+                }
+            }
         })
+
 
         with(binding) {
             ivShowHidePassword.showOrHidePassword(binding.etPassword)
@@ -60,7 +87,7 @@ class RegisterFragment : Fragment() {
 
             btnRegister.setOnClickListener {
             val myFragment : RegisterFragment = RegisterFragment()
-            requireActivity().supportFragmentManager.beginTransaction().add(R.id.fragment, myFragment).commit()
+            requireActivity().supportFragmentManager.beginTransaction().add(R.id.containe_fragment, myFragment).commit()
 ////                val action = RegisterFragmentDirections.actionRegisterFragmentToRegisterFragment()
 ////                requireView().findNavController().navigate(action)
             }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ravikiran.recyclerviewexample.App
 import com.ravikiran.recyclerviewexample.databinding.ItemProductsBinding
-import com.ravikiran.recyclerviewexample.databinding.RecyclerHomeItemsBinding
 import com.ravikiran.recyclerviewexample.model.LatestProducts
 import org.json.JSONException
 import java.util.*
@@ -22,8 +21,8 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
     var products = mutableListOf<LatestProducts>()
     lateinit var context: Context
 
-    fun setMovieList(products: List<LatestProducts>, applicationContext: Context) {
-        this.products = products.toMutableList()
+    fun setMovieList(products: List<LatestProducts>?, applicationContext: Context) {
+        this.products = products!!.toMutableList()
         this.context = applicationContext
         notifyDataSetChanged()
     }

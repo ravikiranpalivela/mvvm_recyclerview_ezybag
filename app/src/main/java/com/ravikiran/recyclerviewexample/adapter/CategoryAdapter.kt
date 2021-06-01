@@ -1,28 +1,20 @@
 package com.ravikiran.recyclerviewexample.adapter
 
-import android.R
 import android.content.Context
-import android.graphics.Paint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ravikiran.recyclerviewexample.App
 import com.ravikiran.recyclerviewexample.databinding.RecyclerHomeItemsBinding
 import com.ravikiran.recyclerviewexample.model.Category
-import org.json.JSONException
-import java.util.*
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryMainholder>() {
 
     var products = mutableListOf<Category>()
     lateinit var context: Context
 
-    fun setMovieList(products: List<Category>, applicationContext: Context) {
-        this.products = products.toMutableList()
+    fun setMovieList(products: List<Category>?, applicationContext: Context) {
+        this.products = products!!.toMutableList()
         this.context = applicationContext
         notifyDataSetChanged()
     }

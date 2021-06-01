@@ -10,38 +10,15 @@ interface ApiService {
 
     // getting data from api
 
-    @FormUrlEncoded
-    @POST("Login")
-    fun login(
-        @Field("device_id")
-        device_id: String,
-        @Field("phone")
-        phone: String,
-        @Field("password")
-        password: String
-    ): Call<UserDetailsAPIResponse>
-
-    @FormUrlEncoded
-    @POST("Register")
-    fun register(
-        @Field("device_id")
-        device_id: String,
-        @Field("name") name: String,
-        @Field("phone") phone: String,
-        @Field("email") email: String,
-        @Field("password") password: String
-    ) : Call<UserDetailsAPIResponse>
-
-
 
     @GET("Mainpage")
-    fun getMainPage(
+    suspend fun getMainPageData(
         @Query("device_id")
         device_id: String,
         @Query("user_id")
         user_id: String
-    ): Call<MainAPIResponse>
-//    Response<MainAPIResponse>
+    ):
+    Response<MainAPIResponse>
 
     @GET("Subcategory")
     suspend fun getSubcategory(
@@ -63,6 +40,7 @@ interface ApiService {
         subcatid: String
     ): Response<ProductsAPIResponse>
 
+    @FormUrlEncoded
     @POST("Login")
     suspend fun getUserDetails(
         @Field("device_id")
@@ -73,6 +51,7 @@ interface ApiService {
         password: String
     ): Response<UserDetailsAPIResponse>
 
+    @FormUrlEncoded
     @POST("Register")
     suspend fun getRegister(
         @Field("device_id")
@@ -87,6 +66,7 @@ interface ApiService {
         password: String
     ): Response<UserDetailsAPIResponse>
 
+    @FormUrlEncoded
     @POST("Addtocart")
     suspend fun getAddtocart(
         @Field("device_id")
