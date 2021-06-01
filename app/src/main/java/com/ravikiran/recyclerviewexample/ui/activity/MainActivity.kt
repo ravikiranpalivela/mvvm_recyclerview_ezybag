@@ -2,22 +2,26 @@ package com.ravikiran.recyclerviewexample.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ravikiran.recyclerviewexample.R
 import com.ravikiran.recyclerviewexample.adapter.CategoryAdapter
 import com.ravikiran.recyclerviewexample.adapter.MainAdapter
+import com.ravikiran.recyclerviewexample.data.local.SharedPref
 import com.ravikiran.recyclerviewexample.data.remote.ApiService
 import com.ravikiran.recyclerviewexample.data.repository.MainRepository
 import com.ravikiran.recyclerviewexample.databinding.ActivityMainBinding
 import com.ravikiran.recyclerviewexample.model.Category
+import com.ravikiran.recyclerviewexample.startNewActivity
 import com.ravikiran.recyclerviewexample.viewmodel.MainViewModel
 import com.ravikiran.recyclerviewexample.viewmodel.MyViewModelFactory
 
 
 class MainActivity : AppCompatActivity() {
-    private val TAG = "MainActivity"
+    private val TAG = "taggy"
     private lateinit var binding: ActivityMainBinding
 
     lateinit var viewModel: MainViewModel
@@ -34,7 +38,21 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, MyViewModelFactory(MainRepository(retrofitService))).get(MainViewModel::class.java)
 
-        binding.rvSubCatItemHome.adapter = adapter
+
+
+        if (SharedPref.token == null) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                startNewActivity( AuthActivity::class.java)
+            }, 600)
+        }
+        else
+        {
+            Log.d(TAG, "on token: "+SharedPref.token)
+        }
+
+
+
+            binding.rvSubCatItemHome.adapter = adapter
         binding.rvHome.adapter = catAdapter
 
         viewModel.mainList.observe(this, Observer {

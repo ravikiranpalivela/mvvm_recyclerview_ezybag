@@ -2,6 +2,7 @@ package com.ravikiran.recyclerviewexample
 
 import android.app.Application
 import android.content.Context
+import com.ravikiran.recyclerviewexample.data.local.SharedPref
 
 class App : Application() {
     private var context: Context? = null
@@ -11,6 +12,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        SharedPref.init(this)
+
     }
 
     fun getContext(): Context? {
