@@ -1,4 +1,24 @@
 <resources>
     <string name="app_name">RecyclerviewExample</string>
     <string name="str_add">Add</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="tv_reg">Register</string>
+    <string name="tv_reg_name_hint">Name</string>
+    <string name="tv_reg_email_hint">Email</string>
+    <string name="tv_reg_phone_hint">Phone</string>
+    <string name="tv_login_password">Password</string>
+    <string name="text_enter_password">Password</string>
+    <string name="text_enter_cpassword">Confirm Password</string>
+    <string name="tv_login_phone">Phone</string>
+    <string name="btn_login">Login</string>
 </resources>

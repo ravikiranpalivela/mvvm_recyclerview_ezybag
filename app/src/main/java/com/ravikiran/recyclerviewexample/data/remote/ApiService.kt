@@ -4,14 +4,36 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Field
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
-    // getting top headlines from api
+    // getting data from api
+
+    @FormUrlEncoded
+    @POST("Login")
+    fun login(
+        @Field("device_id")
+        device_id: String,
+        @Field("phone")
+        phone: String,
+        @Field("password")
+        password: String
+    ): Call<UserDetailsAPIResponse>
+
+    @FormUrlEncoded
+    @POST("Register")
+    fun register(
+        @Field("device_id")
+        device_id: String,
+        @Field("name") name: String,
+        @Field("phone") phone: String,
+        @Field("email") email: String,
+        @Field("password") password: String
+    ) : Call<UserDetailsAPIResponse>
+
+
+
     @GET("Mainpage")
     fun getMainPage(
         @Query("device_id")

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ravikiran.recyclerviewexample.App
 import com.ravikiran.recyclerviewexample.databinding.ItemProductsBinding
+import com.ravikiran.recyclerviewexample.databinding.RecyclerHomeItemsBinding
 import com.ravikiran.recyclerviewexample.model.LatestProducts
 import org.json.JSONException
 import java.util.*
@@ -139,3 +140,4 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 }
 
 class MainViewHolder(val binding: ItemProductsBinding) : RecyclerView.ViewHolder(binding.root)
+//class MainViewHolder(val binding: RecyclerHomeItemsBinding) : RecyclerView.ViewHolder(binding.root)
