@@ -11,12 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.ravikiran.recyclerviewexample.R
 import com.ravikiran.recyclerviewexample.adapter.MainAdapter
 import com.ravikiran.recyclerviewexample.adapter.SubCategoryAdapter
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
 import com.ravikiran.recyclerviewexample.databinding.ActivityMainBinding
+import com.ravikiran.recyclerviewexample.databinding.FragmentProductsBinding
 import com.ravikiran.recyclerviewexample.model.Category
 import com.ravikiran.recyclerviewexample.model.SubCategory
 import com.ravikiran.recyclerviewexample.startNewActivity
@@ -26,9 +26,9 @@ import com.ravikiran.recyclerviewexample.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SubCategoryFragment : Fragment() {
+class ProductFragment : Fragment() {
     private val TAG = "taggy"
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentProductsBinding
 
 //    lateinit var viewModel: MainViewModel
 
@@ -37,7 +37,6 @@ class SubCategoryFragment : Fragment() {
     private lateinit var viewModel: SharedViewModel
 
     val adapter = MainAdapter()
-    val catAdapter = SubCategoryAdapter()
 
 
     override fun onCreateView(
@@ -45,12 +44,12 @@ class SubCategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_main, container, false)
+        return inflater.inflate(R.layout.fragment_products, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding = ActivityMainBinding.bind(view)
+        binding = FragmentProductsBinding.bind(view)
 
         viewModel = (activity as AuthActivity).mViewModel
 
@@ -64,10 +63,9 @@ class SubCategoryFragment : Fragment() {
             Log.d(TAG, "on token: " + SharedPref.token)
         }
 
-        binding.rvSubCatItemHome.adapter = adapter
-        binding.rvHome.adapter = catAdapter
+        binding.rvProduct.adapter = adapter
 
-        viewModel.subcat.observe(viewLifecycleOwner, {
+        viewModel.product.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
                     Log.i("taggy", "Loading...")
@@ -82,8 +80,7 @@ class SubCategoryFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     Log.i("taggy", "data  ${it.data}")
-                    adapter.setMovieList(it.data?.latest_products, requireContext())
-                    catAdapter.setMovieList(it.data?.category, requireContext())
+                    adapter.setMovieList(it.data?.products, requireContext())
 
                 }
             }
@@ -104,24 +101,8 @@ class SubCategoryFragment : Fragment() {
 //
 //        })
 //
-        viewModel.getSubcat("00000",viewModel.token,viewModel.catid)
+        viewModel.getProduct("00000",viewModel.token,viewModel.subcatid)
 
-        catAdapter.setOnClickCallback(::onNewsArticleClicked)
-        binding.rvHome.apply {
-//            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = catAdapter
-        }
-    }
-
-    private fun onNewsArticleClicked(category: SubCategory) {
-//        Toast.makeText(activity, article.title, Toast.LENGTH_SHORT).show()
-        val bundle = Bundle().apply {
-            putSerializable("article", category)
-            viewModel.subcatid = category.id.toString()
-            viewModel.catid = category.category_id.toString()
-            findNavController().navigate(R.id.action_subCategoryFragment_to_productFragment)
-        }
-        Log.d("taggy", "onitemclicked")
     }
 
 }

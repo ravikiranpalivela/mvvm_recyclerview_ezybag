@@ -34,4 +34,10 @@ class UseCaseModule {
     fun providesGetSubcatUseCase(apiRepository: ApiRepository): GetSubCatPageUseCase{
         return GetSubCatPageUseCase(apiRepository)
     }
+
+    @Singleton
+    @Provides
+    fun providesGetProductUseCase(apiRepository: ApiRepository): GetProductPageUseCase{
+        return GetProductPageUseCase(apiRepository)
+    }
 }

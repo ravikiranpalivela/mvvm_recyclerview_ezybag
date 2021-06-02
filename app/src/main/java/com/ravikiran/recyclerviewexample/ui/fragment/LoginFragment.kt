@@ -50,6 +50,7 @@ class LoginFragment : Fragment() {
 
 //        if (SharedPref.token != null) {
 //            Log.d("taggy", "The value of our pref is: ${SharedPref.token}")
+//            viewModel.token = SharedPref.token.toString()
 //            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 //        }
 

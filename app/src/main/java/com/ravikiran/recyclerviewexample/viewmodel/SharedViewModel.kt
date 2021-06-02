@@ -9,11 +9,9 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.ravikiran.recyclerviewexample.data.usecase.GetLoginUseCase
-import com.ravikiran.recyclerviewexample.data.usecase.GetMainPageUseCase
-import com.ravikiran.recyclerviewexample.data.usecase.GetRegisterUseCase
-import com.ravikiran.recyclerviewexample.data.usecase.GetSubCatPageUseCase
+import com.ravikiran.recyclerviewexample.data.usecase.*
 import com.ravikiran.recyclerviewexample.model.MainAPIResponse
+import com.ravikiran.recyclerviewexample.model.ProductsAPIResponse
 import com.ravikiran.recyclerviewexample.model.SubCatAPIResponse
 import com.ravikiran.recyclerviewexample.model.UserDetailsAPIResponse
 import com.ravikiran.recyclerviewexample.util.Resource
@@ -26,16 +24,9 @@ class SharedViewModel @ViewModelInject constructor(
     private val getLoginUseCase: GetLoginUseCase,
     private val getRegisterUseCase: GetRegisterUseCase,
     private val getSubCatPageUseCase: GetSubCatPageUseCase,
+    private val getProductPageUseCase: GetProductPageUseCase,
     private val app: Application
 ) : AndroidViewModel(app) {
-
-    private val mmainPage = MutableLiveData<Resource<MainAPIResponse>>()
-    val mainPage: LiveData<Resource<MainAPIResponse>>
-        get() = mmainPage
-
-    private val msubcat = MutableLiveData<Resource<SubCatAPIResponse>>()
-    val subcat: LiveData<Resource<SubCatAPIResponse>>
-        get() = msubcat
 
     private val mLoginPage = MutableLiveData<Resource<UserDetailsAPIResponse>>()
     val loginpage: LiveData<Resource<UserDetailsAPIResponse>>
@@ -45,6 +36,21 @@ class SharedViewModel @ViewModelInject constructor(
     val registerpage: LiveData<Resource<UserDetailsAPIResponse>>
         get() = mRegisterPage
 
+
+    private val mmainPage = MutableLiveData<Resource<MainAPIResponse>>()
+    val mainPage: LiveData<Resource<MainAPIResponse>>
+        get() = mmainPage
+
+    private val msubcat = MutableLiveData<Resource<SubCatAPIResponse>>()
+    val subcat: LiveData<Resource<SubCatAPIResponse>>
+        get() = msubcat
+
+    private val mproduct = MutableLiveData<Resource<ProductsAPIResponse>>()
+    val product: LiveData<Resource<ProductsAPIResponse>>
+        get() = mproduct
+
+
+
     lateinit var name:String
     lateinit var email:String
     lateinit var phone:String
@@ -52,6 +58,38 @@ class SharedViewModel @ViewModelInject constructor(
     lateinit var catid:String
     lateinit var subcatid:String
 
+
+    fun getLogin(device_id: String, phone: String, password: String)  {
+        viewModelScope.launch(Dispatchers.IO) {
+            mLoginPage.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(app)) {
+                    mLoginPage.postValue(getLoginUseCase.execute(device_id, phone, password))
+                } else {
+                    mLoginPage.postValue(Resource.Error(message = "Internet not available"))
+                }
+            } catch (e: Exception) {
+                Log.i("taggy", "EXCEPTION"+e.message)
+                mLoginPage.postValue(Resource.Error(message = e.message.toString()))
+            }
+        }
+    }
+
+    fun getRegister(device_id: String, name: String,phone: String, email: String, password: String)  {
+        viewModelScope.launch(Dispatchers.IO) {
+            mRegisterPage.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(app)) {
+                    mRegisterPage.postValue(getRegisterUseCase.execute(device_id, name,phone, email, password))
+                } else {
+                    mRegisterPage.postValue(Resource.Error(message = "Internet not available"))
+                }
+            } catch (e: Exception) {
+                Log.i("taggy", "EXCEPTION"+e.message)
+                mRegisterPage.postValue(Resource.Error(message = e.message.toString()))
+            }
+        }
+    }
 
     fun getMainPage(device_id: String, user_id: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -86,38 +124,23 @@ class SharedViewModel @ViewModelInject constructor(
         }
     }
 
-
-    fun getLogin(device_id: String, phone: String, password: String)  {
+    fun getProduct(device_id: String, user_id: String, subcatid: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            mLoginPage.postValue(Resource.Loading())
+            mproduct.postValue(Resource.Loading())
             try {
                 if (isNetworkAvailable(app)) {
-                    mLoginPage.postValue(getLoginUseCase.execute(device_id, phone, password))
+                    mproduct.postValue(getProductPageUseCase.execute(device_id, user_id,subcatid))
                 } else {
-                    mLoginPage.postValue(Resource.Error(message = "Internet not available"))
+                    mproduct.postValue(Resource.Error(message = "Internet not available"))
                 }
             } catch (e: Exception) {
                 Log.i("taggy", "EXCEPTION"+e.message)
-                mLoginPage.postValue(Resource.Error(message = e.message.toString()))
+                mproduct.postValue(Resource.Error(message = e.message.toString()))
             }
         }
     }
 
-    fun getRegister(device_id: String, name: String,phone: String, email: String, password: String)  {
-        viewModelScope.launch(Dispatchers.IO) {
-            mRegisterPage.postValue(Resource.Loading())
-            try {
-                if (isNetworkAvailable(app)) {
-                    mRegisterPage.postValue(getRegisterUseCase.execute(device_id, name,phone, email, password))
-                } else {
-                    mRegisterPage.postValue(Resource.Error(message = "Internet not available"))
-                }
-            } catch (e: Exception) {
-                Log.i("taggy", "EXCEPTION"+e.message)
-                mRegisterPage.postValue(Resource.Error(message = e.message.toString()))
-            }
-        }
-    }
+
 
     @Suppress("DEPRECATION")
     private fun isNetworkAvailable(context: Context?): Boolean {

@@ -1,6 +1,7 @@
 package com.ravikiran.recyclerviewexample.data.repository.datasource
 
 import com.ravikiran.recyclerviewexample.model.MainAPIResponse
+import com.ravikiran.recyclerviewexample.model.ProductsAPIResponse
 import com.ravikiran.recyclerviewexample.model.SubCatAPIResponse
 import com.ravikiran.recyclerviewexample.model.UserDetailsAPIResponse
 import com.ravikiran.recyclerviewexample.util.Resource
@@ -15,5 +16,7 @@ interface ApiRemoteDataSource {
     suspend fun getRegister(device_id: String, name: String,phone: String, email: String, password: String): Response<UserDetailsAPIResponse>
 
     suspend fun getSubcat(device_id: String, user_id: String, catid: String): Response<SubCatAPIResponse>
+
+    suspend fun getProduct(device_id: String, user_id: String, subcatid: String): Response<ProductsAPIResponse>
 
     }

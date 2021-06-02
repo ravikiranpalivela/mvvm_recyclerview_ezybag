@@ -23,6 +23,7 @@ class PresentationModule {
         getLoginUseCase: GetLoginUseCase,
         getRegisterUseCase: GetRegisterUseCase,
         getSubCatPageUseCase: GetSubCatPageUseCase,
+        getProductPageUseCase: GetProductPageUseCase,
         app: Application
     ): SharedViewModelFactory {
         return SharedViewModelFactory(
@@ -30,6 +31,7 @@ class PresentationModule {
             getLoginUseCase,
             getRegisterUseCase,
             getSubCatPageUseCase,
+            getProductPageUseCase,
             app
         )
     }
