@@ -17,8 +17,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun providesNewsRepository(
-        newsRemoteDataSource: ApiRemoteDataSource,
+        apiRemoteDataSource: ApiRemoteDataSource,
     ): ApiRepository {
-        return ApiRepositoryImpl(newsRemoteDataSource)
+        return ApiRepositoryImpl(apiRemoteDataSource)
     }
 }

@@ -2,6 +2,7 @@ package com.ravikiran.recyclerviewexample.data.repository
 
 import com.ravikiran.recyclerviewexample.data.repository.datasource.ApiRemoteDataSource
 import com.ravikiran.recyclerviewexample.model.MainAPIResponse
+import com.ravikiran.recyclerviewexample.model.SubCatAPIResponse
 import com.ravikiran.recyclerviewexample.model.UserDetailsAPIResponse
 import com.ravikiran.recyclerviewexample.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,16 @@ class ApiRepositoryImpl(
         }
         return Resource.Error(null, "Error: ${response.code().toString()}")
     }
+
+    private fun responseToSubCatResource(response: Response<SubCatAPIResponse>):Resource<SubCatAPIResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(null, "Error: ${response.code().toString()}")
+    }
+
 
     private fun responseToAuthResource(response: Response<UserDetailsAPIResponse>):Resource<UserDetailsAPIResponse> {
         if (response.isSuccessful) {
@@ -39,5 +50,9 @@ class ApiRepositoryImpl(
 
     override suspend fun getRegister(device_id: String, name: String, phone: String, email: String, password: String): Resource<UserDetailsAPIResponse> {
         return responseToAuthResource(newsRemoteDataSource.getRegister(device_id, name, phone, email, password))
+    }
+
+    override suspend fun getSubCat(device_id: String, user_id: String, catid: String): Resource<SubCatAPIResponse> {
+        return responseToSubCatResource(newsRemoteDataSource.getSubcat(device_id, user_id,catid))
     }
 }

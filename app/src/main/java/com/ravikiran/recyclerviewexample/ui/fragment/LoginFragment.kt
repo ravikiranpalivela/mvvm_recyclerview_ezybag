@@ -2,6 +2,8 @@ package com.ravikiran.recyclerviewexample.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import com.ravikiran.recyclerviewexample.R
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
 import com.ravikiran.recyclerviewexample.databinding.ActivityLoginBinding
 import com.ravikiran.recyclerviewexample.showOrHidePassword
+import com.ravikiran.recyclerviewexample.startNewActivity
 import com.ravikiran.recyclerviewexample.ui.activity.AuthActivity
 import com.ravikiran.recyclerviewexample.ui.activity.MainActivity
 import com.ravikiran.recyclerviewexample.util.Resource
@@ -45,6 +48,12 @@ class LoginFragment : Fragment() {
 //        viewModel = ViewModelProvider(requireActivity(), MyViewModelFactory(MainRepository(retrofitService))).get(MainViewModel::class.java)
 
 
+//        if (SharedPref.token != null) {
+//            Log.d("taggy", "The value of our pref is: ${SharedPref.token}")
+//            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+//        }
+
+
         viewModel.loginpage.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
@@ -64,6 +73,10 @@ class LoginFragment : Fragment() {
                         Toast.makeText(requireContext(), "Login Successfully!", Toast.LENGTH_SHORT).show()
 //                        startActivity(Intent(requireContext(), MainActivity::class.java))
 //                        requireActivity().finish()
+                        viewModel.token = it.data?.token.toString()
+                        viewModel.name = it.data?.name.toString()
+                        viewModel.email = it.data?.email.toString()
+                        viewModel.phone = it.data?.phone.toString()
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
                     } else

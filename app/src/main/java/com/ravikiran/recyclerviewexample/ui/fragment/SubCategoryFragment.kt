@@ -11,13 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.ravikiran.recyclerviewexample.R
-import com.ravikiran.recyclerviewexample.adapter.CategoryAdapter
 import com.ravikiran.recyclerviewexample.adapter.MainAdapter
+import com.ravikiran.recyclerviewexample.adapter.SubCategoryAdapter
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
 import com.ravikiran.recyclerviewexample.databinding.ActivityMainBinding
 import com.ravikiran.recyclerviewexample.model.Category
+import com.ravikiran.recyclerviewexample.model.SubCategory
 import com.ravikiran.recyclerviewexample.startNewActivity
 import com.ravikiran.recyclerviewexample.ui.activity.AuthActivity
 import com.ravikiran.recyclerviewexample.util.Resource
@@ -25,7 +25,7 @@ import com.ravikiran.recyclerviewexample.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class SubCategoryFragment : Fragment() {
     private val TAG = "taggy"
     private lateinit var binding: ActivityMainBinding
 
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: SharedViewModel
 
     val adapter = MainAdapter()
-    val catAdapter = CategoryAdapter()
+    val catAdapter = SubCategoryAdapter()
 
 
     override fun onCreateView(
@@ -68,9 +68,7 @@ class HomeFragment : Fragment() {
         binding.rvSubCatItemHome.adapter = adapter
         binding.rvHome.adapter = catAdapter
 
-        Log.d("taggy","name${viewModel.name} \n "+"phone${viewModel.phone} \n "+"email${viewModel.email} \n ")
-
-        viewModel.mainPage.observe(viewLifecycleOwner, {
+        viewModel.subcat.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
                     Log.i("taggy", "Loading...")
@@ -107,7 +105,7 @@ class HomeFragment : Fragment() {
 //
 //        })
 //
-        viewModel.getMainPage("00000",viewModel.token)
+        viewModel.getSubcat("00000",viewModel.token,viewModel.catid)
 
         catAdapter.setOnClickCallback(::onNewsArticleClicked)
         binding.rvHome.apply {
@@ -116,12 +114,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun onNewsArticleClicked(category: Category) {
+    private fun onNewsArticleClicked(category: SubCategory) {
 //        Toast.makeText(activity, article.title, Toast.LENGTH_SHORT).show()
         val bundle = Bundle().apply {
             putSerializable("article", category)
-            viewModel.catid = category.id.toString()
-            findNavController().navigate(R.id.action_homeFragment_to_subCategoryFragment)
+            viewModel.subcatid = category.id.toString()
+            viewModel.catid = category.category_id.toString()
+
         }
         Log.d("taggy", "onitemclicked")
 //        findNavController().navigate(R.id.action_newsFragment_to_infoFragment, bundle)

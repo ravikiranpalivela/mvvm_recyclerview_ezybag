@@ -28,4 +28,10 @@ class UseCaseModule {
     fun providesGetRegisterUseCase(apiRepository: ApiRepository): GetRegisterUseCase{
         return GetRegisterUseCase(apiRepository)
     }
+
+    @Singleton
+    @Provides
+    fun providesGetSubcatUseCase(apiRepository: ApiRepository): GetSubCatPageUseCase{
+        return GetSubCatPageUseCase(apiRepository)
+    }
 }

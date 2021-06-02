@@ -7,21 +7,25 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.ravikiran.recyclerviewexample.data.usecase.GetLoginUseCase
 import com.ravikiran.recyclerviewexample.data.usecase.GetMainPageUseCase
 import com.ravikiran.recyclerviewexample.data.usecase.GetRegisterUseCase
+import com.ravikiran.recyclerviewexample.data.usecase.GetSubCatPageUseCase
 import com.ravikiran.recyclerviewexample.model.MainAPIResponse
+import com.ravikiran.recyclerviewexample.model.SubCatAPIResponse
 import com.ravikiran.recyclerviewexample.model.UserDetailsAPIResponse
 import com.ravikiran.recyclerviewexample.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SharedViewModel(
+class SharedViewModel @ViewModelInject constructor(
     private val getMainPageUseCase: GetMainPageUseCase,
     private val getLoginUseCase: GetLoginUseCase,
     private val getRegisterUseCase: GetRegisterUseCase,
+    private val getSubCatPageUseCase: GetSubCatPageUseCase,
     private val app: Application
 ) : AndroidViewModel(app) {
 
@@ -29,6 +33,9 @@ class SharedViewModel(
     val mainPage: LiveData<Resource<MainAPIResponse>>
         get() = mmainPage
 
+    private val msubcat = MutableLiveData<Resource<SubCatAPIResponse>>()
+    val subcat: LiveData<Resource<SubCatAPIResponse>>
+        get() = msubcat
 
     private val mLoginPage = MutableLiveData<Resource<UserDetailsAPIResponse>>()
     val loginpage: LiveData<Resource<UserDetailsAPIResponse>>
@@ -37,6 +44,14 @@ class SharedViewModel(
     private val mRegisterPage = MutableLiveData<Resource<UserDetailsAPIResponse>>()
     val registerpage: LiveData<Resource<UserDetailsAPIResponse>>
         get() = mRegisterPage
+
+    lateinit var name:String
+    lateinit var email:String
+    lateinit var phone:String
+    lateinit var token:String
+    lateinit var catid:String
+    lateinit var subcatid:String
+
 
     fun getMainPage(device_id: String, user_id: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -50,6 +65,23 @@ class SharedViewModel(
             } catch (e: Exception) {
                 Log.i("taggy", "EXCEPTION"+e.message)
                 mmainPage.postValue(Resource.Error(message = e.message.toString()))
+            }
+        }
+    }
+
+
+    fun getSubcat(device_id: String, user_id: String, catid: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            msubcat.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(app)) {
+                    msubcat.postValue(getSubCatPageUseCase.execute(device_id, user_id,catid))
+                } else {
+                    msubcat.postValue(Resource.Error(message = "Internet not available"))
+                }
+            } catch (e: Exception) {
+                Log.i("taggy", "EXCEPTION"+e.message)
+                msubcat.postValue(Resource.Error(message = e.message.toString()))
             }
         }
     }

@@ -9,6 +9,7 @@ class SharedViewModelFactory(
     private val getMainPageUseCase: GetMainPageUseCase,
     private val getLoginUseCase: GetLoginUseCase,
     private val getRegisterUseCase: GetRegisterUseCase,
+    private val getSubCatPageUseCase: GetSubCatPageUseCase,
     private val app: Application
 ) : ViewModelProvider.Factory {
 
@@ -17,6 +18,7 @@ class SharedViewModelFactory(
             getMainPageUseCase,
             getLoginUseCase,
             getRegisterUseCase,
+            getSubCatPageUseCase,
             app) as T
     }
 }

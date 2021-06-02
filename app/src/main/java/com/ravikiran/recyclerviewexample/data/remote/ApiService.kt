@@ -22,21 +22,21 @@ interface ApiService {
 
     @GET("Subcategory")
     suspend fun getSubcategory(
-        @Field("device_id")
+        @Query("device_id")
         device_id: String,
-        @Field("user_id")
+        @Query("user_id")
         user_id: String,
-        @Field("catid")
+        @Query("catid")
         catid: String
     ): Response<SubCatAPIResponse>
 
     @GET("Products")
     suspend fun getProducts(
-        @Field("device_id")
+        @Query("device_id")
         device_id: String,
-        @Field("user_id")
+        @Query("user_id")
         user_id: String,
-        @Field("subcatid")
+        @Query("subcatid")
         subcatid: String
     ): Response<ProductsAPIResponse>
 
@@ -80,22 +80,5 @@ interface ApiService {
         @Field("quantity")
         quantity: String
     ): Response<AddtocartAPIResponse>
-
-    companion object {
-
-        var retrofitService: ApiService? = null
-
-        fun getInstance() : ApiService {
-
-            if (retrofitService == null) {
-                val retrofit = Retrofit.Builder()
-                    .baseUrl("http://ezybag.in/controladmin/api/Starsmartapi/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                retrofitService = retrofit.create(ApiService::class.java)
-            }
-            return retrofitService!!
-        }
-    }
 
 }

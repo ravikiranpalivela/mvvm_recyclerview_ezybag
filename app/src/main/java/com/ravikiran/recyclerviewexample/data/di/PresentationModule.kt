@@ -3,6 +3,7 @@ package com.ravikiran.recyclerviewexample.data.di
 import android.app.Application
 import com.ravikiran.recyclerviewexample.adapter.CategoryAdapter
 import com.ravikiran.recyclerviewexample.adapter.MainAdapter
+import com.ravikiran.recyclerviewexample.adapter.SubCategoryAdapter
 import com.ravikiran.recyclerviewexample.data.usecase.*
 import com.ravikiran.recyclerviewexample.viewmodel.SharedViewModelFactory
 import dagger.Module
@@ -21,12 +22,14 @@ class PresentationModule {
         getMainPageUseCase: GetMainPageUseCase,
         getLoginUseCase: GetLoginUseCase,
         getRegisterUseCase: GetRegisterUseCase,
+        getSubCatPageUseCase: GetSubCatPageUseCase,
         app: Application
     ): SharedViewModelFactory {
         return SharedViewModelFactory(
             getMainPageUseCase,
             getLoginUseCase,
             getRegisterUseCase,
+            getSubCatPageUseCase,
             app
         )
     }
@@ -39,5 +42,10 @@ class PresentationModule {
     @Provides
     fun provideCategoryAdapter(): CategoryAdapter {
         return CategoryAdapter()
+    }
+
+    @Provides
+    fun provideSubCategoryAdapter(): SubCategoryAdapter {
+        return SubCategoryAdapter()
     }
 }

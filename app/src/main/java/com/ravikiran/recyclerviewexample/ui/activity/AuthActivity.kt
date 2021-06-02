@@ -32,12 +32,12 @@ class AuthActivity : AppCompatActivity() {
 
 
 
-        if (SharedPref.token != null) {
-            Log.d("taggy", "The value of our pref is: ${SharedPref.token}")
-            Handler(Looper.getMainLooper()).postDelayed({
-                startNewActivity( MainActivity::class.java)
-            }, 600)
-        }
+//        if (SharedPref.token != null) {
+//            Log.d("taggy", "The value of our pref is: ${SharedPref.token}")
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                startNewActivity( MainActivity::class.java)
+//            }, 600)
+//        }
 
         mViewModel = ViewModelProvider(this, vmFactory).get(SharedViewModel::class.java)
     }
