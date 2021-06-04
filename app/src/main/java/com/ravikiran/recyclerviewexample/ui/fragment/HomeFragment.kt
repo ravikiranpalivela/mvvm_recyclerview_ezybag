@@ -16,7 +16,7 @@ import com.ravikiran.recyclerviewexample.R
 import com.ravikiran.recyclerviewexample.adapter.CategoryAdapter
 import com.ravikiran.recyclerviewexample.adapter.MainAdapter
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
-import com.ravikiran.recyclerviewexample.databinding.ActivityMainBinding
+import com.ravikiran.recyclerviewexample.databinding.FragmentHomeBinding
 import com.ravikiran.recyclerviewexample.model.Category
 import com.ravikiran.recyclerviewexample.startNewActivity
 import com.ravikiran.recyclerviewexample.ui.activity.AuthActivity
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val TAG = "taggy"
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentHomeBinding
 
 //    lateinit var viewModel: MainViewModel
 
@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding = ActivityMainBinding.bind(view)
+        binding = FragmentHomeBinding.bind(view)
 
         viewModel = (activity as AuthActivity).mViewModel
 

@@ -10,10 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.ravikiran.recyclerviewexample.R
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
-import com.ravikiran.recyclerviewexample.databinding.ActivityRegisterBinding
+import com.ravikiran.recyclerviewexample.databinding.FragmentRegisterBinding
 import com.ravikiran.recyclerviewexample.showOrHidePassword
 import com.ravikiran.recyclerviewexample.ui.activity.AuthActivity
 import com.ravikiran.recyclerviewexample.ui.activity.MainActivity
@@ -23,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
-    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var binding: FragmentRegisterBinding
 
     private lateinit var viewModel: SharedViewModel
 
@@ -33,12 +32,12 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_register, container, false)
+        return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding = ActivityRegisterBinding.bind(view)
+        binding = FragmentRegisterBinding.bind(view)
 
         viewModel = (activity as AuthActivity).mViewModel
 

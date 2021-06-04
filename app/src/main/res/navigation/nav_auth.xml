@@ -9,7 +9,7 @@
         android:id="@+id/loginFragment"
         android:name="com.ravikiran.recyclerviewexample.ui.fragment.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/activity_login">
+        tools:layout="@layout/fragment_login">
 
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -23,7 +23,7 @@
         android:id="@+id/registerFragment"
         android:name="com.ravikiran.recyclerviewexample.ui.fragment.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/activity_register" >
+        tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_homeFragment"
             app:destination="@id/homeFragment" />

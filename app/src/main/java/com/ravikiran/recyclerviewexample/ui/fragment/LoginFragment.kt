@@ -1,9 +1,6 @@
 package com.ravikiran.recyclerviewexample.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -11,22 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ravikiran.recyclerviewexample.R
 import com.ravikiran.recyclerviewexample.data.local.SharedPref
-import com.ravikiran.recyclerviewexample.databinding.ActivityLoginBinding
+import com.ravikiran.recyclerviewexample.databinding.FragmentLoginBinding
 import com.ravikiran.recyclerviewexample.showOrHidePassword
-import com.ravikiran.recyclerviewexample.startNewActivity
 import com.ravikiran.recyclerviewexample.ui.activity.AuthActivity
-import com.ravikiran.recyclerviewexample.ui.activity.MainActivity
 import com.ravikiran.recyclerviewexample.util.Resource
 import com.ravikiran.recyclerviewexample.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: FragmentLoginBinding
 
     private lateinit var viewModel: SharedViewModel
 
@@ -36,12 +30,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_login, container, false)
+        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding = ActivityLoginBinding.bind(view)
+        binding = FragmentLoginBinding.bind(view)
 
         viewModel = (activity as AuthActivity).mViewModel
 
